@@ -1,0 +1,58 @@
+{
+  "name": "zustand-create",
+  "version": "1.0.0",
+  "publisher": "@uceumice <dev@ueuie.dev>",
+  "author": {
+    "name": "uceumice",
+    "email": "dev@ueuie.dev",
+    "url": "http://dev.ueuie.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uceumice/zustand-create"
+  },
+  "homepage": "https://zustand.ueuie.dev/create",
+  "bugs": {
+    "url": "https://github.com/uceumice/zustand-create/issues",
+    "email": "bug@ueuie.dev"
+  },
+  "peerDependencies": {
+    "react": ">=16.0.0",
+    "zustand": ">=4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/lodash": "^4.14.191",
+    "typescript": "~5.0.2",
+    "concurrently": "^7.6.0",
+    "tsc-alias": "^1.8.3",
+    "npm-check-updates": "^16.7.12",
+    "prettier": "^2.8.4"
+  },
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "dev": "concurrently --kill-others \"tsc -w\" \"tsc-alias -w\"",
+    "ncu": "ncu --deep --reject meow",
+    "ncu:u": "ncu -u --deep --reject meow",
+    "format": "prettier --write \"**/*.{ts,tsx,json}\"",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint --fix"
+  },
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
+  "files": [
+    "out"
+  ],
+  "keywords": [
+    "zustand",
+    "helper",
+    "context",
+    "create",
+    "init",
+    "props",
+    "react",
+    "react context"
+  ],
+  "license": "MIT",
+  "description": "A Zustand utility which helps create stores with React provided variables/props, wrapped in React Context."
+}
