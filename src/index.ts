@@ -7,35 +7,26 @@ import {
 } from "react";
 import { useStore as useZustandStore } from "zustand";
 
-import type { ReactNode } from "react";
 import type { StoreApi } from "zustand";
+import {
+  CreateZustandContext,
+  CreateZustandProvider,
+  CreateZustandUseStore,
+  CreateZustandUseStoreApi,
+  ExtractState,
+  WithoutCallSignature,
+  CreateZustandInit,
+} from "./types";
 
 // ----
-export type UseContextStore<S extends StoreApi<unknown>> = {
-  (): ExtractState<S>;
-  <U>(
-    selector: (state: ExtractState<S>) => U,
-    equalityFn?: (a: U, b: U) => boolean,
-  ): U;
-};
+export function init<S extends StoreApi<unknown>>(): CreateZustandInit<S> {
+  // [context]
+  const Context: CreateZustandContext<S> = createContext<S | undefined>(
+    undefined,
+  );
 
-export type ExtractState<S> = S extends { getState: () => infer T } ? T : never;
-
-export type WithoutCallSignature<T> = { [K in keyof T]: T[K] };
-
-// ----
-export function init<S extends StoreApi<unknown>>() {
-  // [1] create react context which would hold the reference to zustand store
-  const Context = createContext<S | undefined>(undefined);
-
-  // [2] create a store provider
-  const Provider = ({
-    create,
-    children,
-  }: {
-    create: () => S;
-    children: ReactNode;
-  }) => {
+  // [provider]
+  const Provider: CreateZustandProvider<S> = ({ create, children }) => {
     const storeRef = useRef<S>();
 
     if (!storeRef.current) {
@@ -49,8 +40,8 @@ export function init<S extends StoreApi<unknown>>() {
     );
   };
 
-  // [3] create a store hook
-  const useStore: UseContextStore<S> = <StateSlice = ExtractState<S>>(
+  // [use-store]
+  const useStore: CreateZustandUseStore<S> = <StateSlice = ExtractState<S>>(
     selector?: (state: ExtractState<S>) => StateSlice,
     equalityFn?: (a: StateSlice, b: StateSlice) => boolean,
   ) => {
@@ -68,8 +59,8 @@ export function init<S extends StoreApi<unknown>>() {
     );
   };
 
-  // [4] create a store api hook
-  const useStoreApi = () => {
+  // [use-store-api]
+  const useStoreApi: CreateZustandUseStoreApi<S> = () => {
     const store = useContext(Context);
     if (!store) {
       throw new Error(
@@ -88,3 +79,14 @@ export function init<S extends StoreApi<unknown>>() {
     useStoreApi,
   };
 }
+
+// [helpers]
+export type { WithImmer } from "./types/with-immer";
+export type {
+  CreateZustandContext,
+  CreateZustandProvider,
+  CreateZustandProviderProps,
+  CreateZustandUseStore,
+  CreateZustandUseStoreApi,
+  CreateZustandInit,
+} from "./types";

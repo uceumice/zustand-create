@@ -1,6 +1,6 @@
 {
   "name": "zustand-create",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "@uceumice <dev@ueuie.dev>",
   "author": {
     "name": "uceumice",
@@ -17,31 +17,36 @@
     "email": "bug@ueuie.dev"
   },
   "peerDependencies": {
-    "react": ">=16.0.0",
+    "react": ">=17.0.0",
     "zustand": ">=4.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
     "@types/lodash": "^4.14.191",
-    "typescript": "~5.0.2",
-    "concurrently": "^7.6.0",
-    "tsc-alias": "^1.8.3",
+    "@types/react": "^18.0.28",
+    "immer": "^9.0.21",
     "npm-check-updates": "^16.7.12",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "react": "^18.2.0",
+    "tsup": "^6.7.0",
+    "typescript": "~5.0.2",
+    "zustand": "^4.3.7"
   },
   "scripts": {
-    "build": "tsc && tsc-alias",
-    "dev": "concurrently --kill-others \"tsc -w\" \"tsc-alias -w\"",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "check": "tsc --noEmit",
+    "pub": "pnpm publish -r --access public",
     "ncu": "ncu --deep --reject meow",
     "ncu:u": "ncu -u --deep --reject meow",
     "format": "prettier --write \"**/*.{ts,tsx,json}\"",
-    "lint": "turbo run lint",
-    "lint:fix": "turbo run lint --fix"
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
   },
-  "main": "out/index.js",
-  "types": "out/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "out"
+    "dist"
   ],
   "keywords": [
     "zustand",
